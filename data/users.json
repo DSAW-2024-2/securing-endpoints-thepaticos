@@ -16,5 +16,11 @@
     "name": "Nombre del usuario",
     "email": "Correo electrónico",
     "age": "Edad del usuario"
+  },
+  {
+    "id": "Identificador únic",
+    "name": "Nombre del usuario",
+    "email": "Correo electrónico",
+    "age": "Edad del usuario"
   }
 ]

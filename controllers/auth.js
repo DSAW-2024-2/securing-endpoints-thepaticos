@@ -1,13 +1,12 @@
 const authModel = require("../models/auth");
 const jwt = require("jsonwebtoken");
 
-const MY_SECRET = "123hjad8/jhad1/8ajdhsad/";
 class authControllers {
   static login(req, res) {
     try {
       const authData = req.body;
       authModel.getAuth(authData);
-      const token = jwt.sign(authData, MY_SECRET, {
+      const token = jwt.sign(authData, process.env.ACCES_TOKEN_SECRET, {
         expiresIn: "1h",
       });
       res.cookie("authToken", token, {
