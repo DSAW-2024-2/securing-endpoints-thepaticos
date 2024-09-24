@@ -10,5 +10,11 @@
     "name": "User 6",
     "email": "user6@gmail.com",
     "age": 66
+  },
+  {
+    "id": "Identificador único",
+    "name": "Nombre del usuario",
+    "email": "Correo electrónico",
+    "age": "Edad del usuario"
   }
 ]
