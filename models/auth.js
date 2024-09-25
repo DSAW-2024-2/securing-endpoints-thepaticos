@@ -1,4 +1,4 @@
-module.exports = class authModel {
+class authModel {
   static getAuth(data) {
     const { email, password } = data;
     if (email !== "admin@admin.com" || password !== "admin") {
@@ -7,3 +7,5 @@ module.exports = class authModel {
     return
   }
 };
+
+module.exports = authModel;

@@ -8,26 +8,31 @@ module.exports = class usersModel {
   }
 
   static createUser(newUser) {
-    const existUser = users.find((user) => {
-      return user.id === newUser.id;
-    });
-    if (existUser) {
-      throw new Error("existUser");
-    }
-    users.push(newUser);
-    fs.writeFile(
-      path.join(__dirname, "../data/users.json"),
-      JSON.stringify(users, null, 2),
-      (err) => {
-        if (err) {
-          throw new Error("Server Error");
-        }
+    if (typeof(newUser.id)==='number'){
+      const existUser = users.find((user) => {
+        return user.id === newUser.id;
+      });
+      if (existUser) {
+        throw new Error("existUser");
       }
-    );
-    return newUser;
+      users.push(newUser);
+      fs.writeFile(
+        path.join(__dirname, "../data/users.json"),
+        JSON.stringify(users, null, 2),
+        (err) => {
+          if (err) {
+            throw new Error("Server Error");
+          }
+        }
+      );
+      return newUser;
+    } else {
+      throw new Error("The User_id must be a number")
+    }
   }
 
   static getById(id) {
+    if (typeof(id)==='number'){
     const existUser = users.find((user) => {
       return user.id === id;
     });
@@ -35,9 +40,15 @@ module.exports = class usersModel {
       throw new Error("User doesn't exist");
     }
     return existUser;
+    } else {
+      throw new Error("the User_id must be a number")
+    }
   }
 
   static modifyUser(id, updateData) {
+    if (typeof(id)!=='number'){
+      throw new Error("The User_id must be a number")
+    }
     const userIndex = users.findIndex((user) => user.id === id);
     if (userIndex !== -1) {
       users[userIndex] = { ...users[userIndex], ...updateData };
@@ -57,6 +68,9 @@ module.exports = class usersModel {
   }
 
   static deleteUser(id) {
+    if (typeof(id)!=='number'){
+      throw new Error("The User_id must be a number")
+    }
     const userIndex = users.findIndex((user) => user.id === id);
     if (userIndex !== -1) {
       users.splice(userIndex, 1);
