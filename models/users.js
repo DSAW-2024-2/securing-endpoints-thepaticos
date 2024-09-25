@@ -8,7 +8,9 @@ module.exports = class usersModel {
   }
 
   static createUser(newUser) {
-    if (typeof(newUser.id)==='number'){
+    if (typeof(newUser.id)!=='number'){
+      throw new Error("numId")
+    }
       const existUser = users.find((user) => {
         return user.id === newUser.id;
       });
@@ -26,9 +28,6 @@ module.exports = class usersModel {
         }
       );
       return newUser;
-    } else {
-      throw new Error("The User_id must be a number")
-    }
   }
 
   static getById(id) {
@@ -41,13 +40,13 @@ module.exports = class usersModel {
     }
     return existUser;
     } else {
-      throw new Error("the User_id must be a number")
+      throw new Error("numId")
     }
   }
 
   static modifyUser(id, updateData) {
     if (typeof(id)!=='number'){
-      throw new Error("The User_id must be a number")
+      throw new Error("numId")
     }
     const userIndex = users.findIndex((user) => user.id === id);
     if (userIndex !== -1) {
@@ -69,7 +68,7 @@ module.exports = class usersModel {
 
   static deleteUser(id) {
     if (typeof(id)!=='number'){
-      throw new Error("The User_id must be a number")
+      throw new Error("numId")
     }
     const userIndex = users.findIndex((user) => user.id === id);
     if (userIndex !== -1) {

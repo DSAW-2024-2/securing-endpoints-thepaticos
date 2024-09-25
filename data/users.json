@@ -10,5 +10,11 @@
     "name": "Nicolas Caceres",
     "email": "nicoCacer@gmail.com",
     "age": 20
+  },
+  {
+    "id": 4,
+    "name": "Juan Murillo",
+    "email": "juanmur@gmail.com",
+    "age": 25
   }
 ]
