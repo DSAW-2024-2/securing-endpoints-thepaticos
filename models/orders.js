@@ -1,89 +1,50 @@
-const orders = require("../data/orders");
-const fs = require("fs");
-const path = require("path");
-
-module.exports = class ordersModel {
+const {addOrder, deleteOrder, getOrders, getOrderById, getOrderId, updateOrder} = require('../data/orders');
+module.exports = class OrdersModel {
+  
   static getAll() {
-    return orders;
+    return getOrders();
   }
 
   static createOrder(newOrder) {
-    if (typeof(newOrder.id)!=='number'){
-      throw new Error("The Order_id must be a number")
+    const existOrder = getOrderById(newOrder.id);
+    if (existOrder!=false) {
+      throw new Error("Order already exists");
     }
-    const existOrder = orders.find((order) => {
-      return order.id === newOrder.id;
-    });
-    if (existOrder) {
-      throw new Error("existOrder");
-    }
-    orders.push(newOrder);
-    fs.writeFile(
-      path.join(__dirname, "../data/orders.json"),
-      JSON.stringify(orders, null, 2),
-      (err) => {
-        if (err) {
-          throw new Error("Server Error");
-        }
-      }
-    );
+    addOrder(newOrder)
     return newOrder;
   }
 
   static getById(id) {
     if (typeof(id)!=='number'){
-      throw new Error("The Order_id must be a number")
+      throw new Error("Invalid order id");
     }
-    const existOrder = orders.find((order) => {
-      return order.id === id;
-    });
-    if (!existOrder) {
-      throw new Error("Order doesn't exist");
+    const existOrder = getOrderById(id);
+    if (existOrder==false) {
+      throw new Error("Order does not exist");
     }
     return existOrder;
   }
 
-  static modifyOrder(id, updateData) {
+  static modifyOrder(id, updatedData) {
     if (typeof(id)!=='number'){
-      throw new Error("The Order_id must be a number")
+      throw new Error("Invalid order id")
     }
-    const orderIndex = orders.findIndex((order) => order.id === id);
-    if (orderIndex !== -1) {
-      orders[orderIndex] = { ...orders[orderIndex], ...updateData };
-      fs.writeFile(
-        path.join(__dirname, "../data/orders.json"),
-        JSON.stringify(orders, null, 2),
-        (err) => {
-          if (err) {
-            throw new Error(err);
-          }
-        }
-      );
-      return orders[orderIndex];
-    } else {
-      throw new Error("Order doesn't exist");
+    const existOrder = getOrderById(id);
+    if (existOrder==false) {
+      throw new Error("Order id does not exist");
     }
+    updateOrder(getOrderId(existOrder),updatedData);
+    return updatedData;
   }
 
   static deleteOrder(id) {
     if (typeof(id)!=='number'){
-      throw new Error("The Order_id must be a number")
+      throw new Error("Invalid order id")
     }
-    const orderIndex = orders.findIndex((order) => order.id === id);
-    if (orderIndex !== -1) {
-      orders.splice(orderIndex, 1);
-      fs.writeFile(
-        path.join(__dirname, "../data/orders.json"),
-        JSON.stringify(orders, null, 2),
-        (err) => {
-          if (err) {
-            throw new Error(err);
-          }
-        }
-      );
-      return;
-    } else {
-      throw new Error("Order doesn't exist");
+    const existOrder = getOrderById(id);
+    if (existOrder==false) {
+      throw new Error("Order does not exists");
     }
+    deleteOrder(getOrderById(id));
   }
 };

@@ -1,6 +1,5 @@
 const usersModel = require("../models/users");
 const {isValidResBody} = require('../data/users');
-const { message } = require("statuses");
 
 class usersControllers {
   static getAll(req, res) {
