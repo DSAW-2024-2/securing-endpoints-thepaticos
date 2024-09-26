@@ -19,7 +19,8 @@ class ordersControllers {
       }
       if (getUserById(req.body.userId)===false){
         throw new Error("User id does not exist")
-      } else if (getProductById(req.body.productId)){
+      }
+      if (getProductById(req.body.productId)===false){
         throw new Error("Product id does not exist")
       }
       const newOrder = ordersModel.createOrder(newOrderData);
@@ -67,7 +68,7 @@ class ordersControllers {
       }
       if (getUserById(req.body.userId)===false){
         throw new Error("User id does not exist")
-      } else if (getProductById(req.body.productId)){
+      } else if (getProductById(req.body.productId)===false){
         throw new Error("Product id does not exist")
       }
       const modifyOrder = ordersModel.modifyOrder(id, req.body);

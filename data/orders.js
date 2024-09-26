@@ -65,7 +65,6 @@ function isValidResBody(resBody) {
 }
 
 module.exports = {
-orders,
 addOrder,
 deleteOrder,
 getOrders,
