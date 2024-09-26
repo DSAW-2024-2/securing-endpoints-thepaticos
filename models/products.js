@@ -6,7 +6,7 @@ module.exports = class usersModel {
   }
 
   static createProduct(newProduct) {
-    const existProduct = getProducById(newProduct.id);
+    const existProduct = getProductById(newProduct.id);
     if (existProduct!=false) {
       throw new Error("Product already exists");
     }

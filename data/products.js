@@ -45,18 +45,18 @@ function updateProduct(index, updatedProduct){
 }
 
 function isValidResBody(resBody) {
-return (
-  typeof resBody === 'object' &&
-  resBody !== null &&
-  'id' in resBody &&
-  'name' in resBody &&
-  'price' in resBody &&
-  'category' in resBody &&
-  typeof resBody.id === 'number' &&
-  typeof resBody.name === 'string' &&
-  typeof resBody.email === 'number' &&
-  typeof resBody.age === 'string'
-);
+  return (
+    typeof resBody === 'object' &&
+    resBody !== null &&
+    'id' in resBody &&
+    'name' in resBody &&
+    'price' in resBody &&
+    'category' in resBody &&
+    typeof resBody.id === 'number' &&
+    typeof resBody.name === 'string' &&
+    typeof resBody.price === 'number' &&
+    typeof resBody.category === 'string'
+  );
 }
 
 module.exports = {
