@@ -1,6 +1,4 @@
 const {addUser, deleteUser, getUsers, getUserById, getUserId, updateUser} = require('../data/users');
-const { message } = require("statuses");
-
 module.exports = class usersModel {
   
   static getAll() {
