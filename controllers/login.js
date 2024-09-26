@@ -1,4 +1,4 @@
-const authModel = require("../models/auth");
+const authModel = require("../models/login");
 const jwt = require("jsonwebtoken");
 
 class authControllers {
@@ -12,7 +12,7 @@ class authControllers {
       res.cookie("authToken", token, {
         httpOnly: true,
       });
-      res.status(203).json({ message: "Admin correctly login" });
+      res.status(200).json({ message: "Admin correctly login" });
     } catch (error) {
       if ((error.message = "notAuth")) {
         return res.status(403).json({ message: "Incorrect Admin credentials" });
