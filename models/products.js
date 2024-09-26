@@ -1,89 +1,50 @@
-const products = require("../data/products");
-const fs = require("fs");
-const path = require("path");
-
-module.exports = class productsModel {
+const {addProduct, deleteProduct, getProducts, getProductById, getProductId, updateProduct} = require('../data/products');
+module.exports = class usersModel {
+  
   static getAll() {
-    return products;
+    return getProducts();
   }
 
   static createProduct(newProduct) {
-    if (typeof(newProduct.id)!=='number'){
-      throw new Error("The Order_id must be a number")
+    const existProduct = getProducById(newProduct.id);
+    if (existProduct!=false) {
+      throw new Error("Product already exists");
     }
-    const existProduct = products.find((product) => {
-      return product.id === newProduct.id;
-    });
-    if (existProduct) {
-      throw new Error("existProduct");
-    }
-    products.push(newProduct);
-    fs.writeFile(
-      path.join(__dirname, "../data/products.json"),
-      JSON.stringify(products, null, 2),
-      (err) => {
-        if (err) {
-          throw new Error("Server Error");
-        }
-      }
-    );
+    addProduct(newProduct)
     return newProduct;
   }
 
   static getById(id) {
     if (typeof(id)!=='number'){
-      throw new Error("The Order_id must be a number")
+      throw new Error("Invalid user id");
     }
-    const existProduct = products.find((product) => {
-      return product.id === id;
-    });
-    if (!existProduct) {
-      throw new Error("Product doesn't exist");
+    const existProduct = getProductById(id);
+    if (existProduct==false) {
+      throw new Error("Product does not exist");
     }
     return existProduct;
   }
 
-  static modifyProduct(id, updateData) {
+  static modifyProduct(id, updatedData) {
     if (typeof(id)!=='number'){
-      throw new Error("The Order_id must be a number")
+      throw new Error("Invalid product id")
     }
-    const productIndex = products.findIndex((product) => product.id === id);
-    if (productIndex !== -1) {
-      products[productIndex] = { ...products[productIndex], ...updateData };
-      fs.writeFile(
-        path.join(__dirname, "../data/products.json"),
-        JSON.stringify(products, null, 2),
-        (err) => {
-          if (err) {
-            throw new Error(err);
-          }
-        }
-      );
-      return products[productIndex];
-    } else {
-      throw new Error("Product doesn't exist");
+    const existProduct = getProductById(id);
+    if (existProduct==false) {
+      throw new Error("Product id does not exist");
     }
+    updateProduct(getProductId(existProduct),updatedData);
+    return updatedData;
   }
 
   static deleteProduct(id) {
     if (typeof(id)!=='number'){
-      throw new Error("The Order_id must be a number")
+      throw new Error("Invalid product id")
     }
-    const productIndex = products.findIndex((product) => product.id === id);
-    if (productIndex !== -1) {
-      products.splice(productIndex, 1);
-      fs.writeFile(
-        path.join(__dirname, "../data/products.json"),
-        JSON.stringify(products, null, 2),
-        (err) => {
-          if (err) {
-            throw new Error(err);
-          }
-        }
-      );
-      return;
-    } else {
-      throw new Error("Product doesn't exist");
+    const existProduct = getProductById(id);
+    if (existProduct==false) {
+      throw new Error("Product does not exists");
     }
+    deleteProduct(getProductById(id));
   }
 };
