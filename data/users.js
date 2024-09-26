@@ -42,6 +42,7 @@ function getUserId(user){
 function updateUser(index, updatedUser){
   users.splice(index, 1, updatedUser)
 }
+
 function isValidResBody(resBody) {
   return (
     typeof resBody === 'object' &&
@@ -58,7 +59,6 @@ function isValidResBody(resBody) {
 }
 
 module.exports = {
-  users,
   addUser,
   deleteUser,
   getUsers,
