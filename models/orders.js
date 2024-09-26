@@ -1,4 +1,4 @@
-const orders = require("../data/orders.json");
+const orders = require("../data/orders");
 const fs = require("fs");
 const path = require("path");
 
