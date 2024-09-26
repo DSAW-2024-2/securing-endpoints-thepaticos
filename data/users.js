@@ -1,5 +1,3 @@
-const { indexOf } = require("lodash");
-
 const users = [  {
     id: 1,
     name: "Jhojan Jimenez",
