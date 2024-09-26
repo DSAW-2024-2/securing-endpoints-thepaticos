@@ -1,14 +1,14 @@
 [
   {
-    "id": 5,
-    "name": "prod_one",
+    "id": 1,
+    "name": "pizza",
     "price": "100",
-    "category": "Category 1"
+    "category": "Fast food"
   },
   {
-    "id": 6,
-    "name": "prod_otwo",
+    "id": 2,
+    "name": "Hamburger",
     "price": "200",
-    "category": "Category 2"
+    "category": "Fast food"
   }
 ]

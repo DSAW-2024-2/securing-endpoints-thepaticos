@@ -1,77 +1,52 @@
-const users = require("../data/users.json");
-const fs = require("fs");
-const path = require("path");
+const {addUser, deleteUser, getUsers, getUserById, getUserId, updateUser} = require('../data/users');
+const { message } = require("statuses");
 
 module.exports = class usersModel {
+  
   static getAll() {
-    return users;
+    return getUsers();
   }
 
   static createUser(newUser) {
-    const existUser = users.find((user) => {
-      return user.id === newUser.id;
-    });
-    if (existUser) {
-      throw new Error("existUser");
+    const existUser = getUserById(newUser.id);
+    if (existUser!=false) {
+      throw new Error("User already exists");
     }
-    users.push(newUser);
-    fs.writeFile(
-      path.join(__dirname, "../data/users.json"),
-      JSON.stringify(users, null, 2),
-      (err) => {
-        if (err) {
-          throw new Error("Server Error");
-        }
-      }
-    );
+    addUser(newUser)
     return newUser;
   }
 
   static getById(id) {
-    const existUser = users.find((user) => {
-      return user.id === id;
-    });
-    if (!existUser) {
-      throw new Error("User doesn't exist");
+    if (typeof(id)!=='number'){
+      throw new Error("Invalid user id");
+    }
+    const existUser = getUserById(id);
+    if (existUser==false) {
+      throw new Error("User does not exist");
     }
     return existUser;
   }
 
-  static modifyUser(id, updateData) {
-    const userIndex = users.findIndex((user) => user.id === id);
-    if (userIndex !== -1) {
-      users[userIndex] = { ...users[userIndex], ...updateData };
-      fs.writeFile(
-        path.join(__dirname, "../data/users.json"),
-        JSON.stringify(users, null, 2),
-        (err) => {
-          if (err) {
-            throw new Error(err);
-          }
-        }
-      );
-      return users[userIndex];
-    } else {
-      throw new Error("User doesn't exist");
+  static modifyUser(id, updatedData) {
+    if (typeof(id)!=='number'){
+      throw new Error("Invalid user id")
     }
+    const existUser = getUserById(id);
+    if (existUser==false) {
+      throw new Error("User id does not exist");
+    }
+    updateUser(getUserId(existUser),updatedData);
+    return updatedData;
   }
 
   static deleteUser(id) {
-    const userIndex = users.findIndex((user) => user.id === id);
-    if (userIndex !== -1) {
-      users.splice(userIndex, 1);
-      fs.writeFile(
-        path.join(__dirname, "../data/users.json"),
-        JSON.stringify(users, null, 2),
-        (err) => {
-          if (err) {
-            throw new Error(err);
-          }
-        }
-      );
-      return;
-    } else {
-      throw new Error("User doesn't exist");
+    if (typeof(id)!=='number'){
+      throw new Error("Invalid user id")
     }
+    const existUser = getUserById(id);
+    if (existUser==false) {
+      throw new Error("User does not exists");
+    }
+    deleteUser(getUserById(id));
   }
 };

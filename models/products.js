@@ -8,6 +8,9 @@ module.exports = class productsModel {
   }
 
   static createProduct(newProduct) {
+    if (typeof(newProduct.id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const existProduct = products.find((product) => {
       return product.id === newProduct.id;
     });
@@ -28,6 +31,9 @@ module.exports = class productsModel {
   }
 
   static getById(id) {
+    if (typeof(id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const existProduct = products.find((product) => {
       return product.id === id;
     });
@@ -38,6 +44,9 @@ module.exports = class productsModel {
   }
 
   static modifyProduct(id, updateData) {
+    if (typeof(id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const productIndex = products.findIndex((product) => product.id === id);
     if (productIndex !== -1) {
       products[productIndex] = { ...products[productIndex], ...updateData };
@@ -57,6 +66,9 @@ module.exports = class productsModel {
   }
 
   static deleteProduct(id) {
+    if (typeof(id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const productIndex = products.findIndex((product) => product.id === id);
     if (productIndex !== -1) {
       products.splice(productIndex, 1);

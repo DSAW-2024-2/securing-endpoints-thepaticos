@@ -1,4 +1,4 @@
-const orders = require("../data/orders.json");
+const orders = require("../data/orders");
 const fs = require("fs");
 const path = require("path");
 
@@ -8,6 +8,9 @@ module.exports = class ordersModel {
   }
 
   static createOrder(newOrder) {
+    if (typeof(newOrder.id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const existOrder = orders.find((order) => {
       return order.id === newOrder.id;
     });
@@ -28,6 +31,9 @@ module.exports = class ordersModel {
   }
 
   static getById(id) {
+    if (typeof(id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const existOrder = orders.find((order) => {
       return order.id === id;
     });
@@ -38,6 +44,9 @@ module.exports = class ordersModel {
   }
 
   static modifyOrder(id, updateData) {
+    if (typeof(id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const orderIndex = orders.findIndex((order) => order.id === id);
     if (orderIndex !== -1) {
       orders[orderIndex] = { ...orders[orderIndex], ...updateData };
@@ -57,6 +66,9 @@ module.exports = class ordersModel {
   }
 
   static deleteOrder(id) {
+    if (typeof(id)!=='number'){
+      throw new Error("The Order_id must be a number")
+    }
     const orderIndex = orders.findIndex((order) => order.id === id);
     if (orderIndex !== -1) {
       orders.splice(orderIndex, 1);
