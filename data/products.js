@@ -37,7 +37,7 @@ return product;
 }
 
 function getProductId(product){
-return product.indexOf(product)
+return products.indexOf(product)
 }
 
 function updateProduct(index, updatedProduct){
