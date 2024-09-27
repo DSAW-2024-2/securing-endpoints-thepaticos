@@ -24,7 +24,7 @@ class authControllers {
       });
       
 
-      res.status(200).json({ message: "Admin correctly logged in" });
+      res.status(200).json({ message: "Admin correctly logged in",accessToken:token });
     } catch (error) {
       if (error.message === "Invalid Body Format") {
         return res.status(400).json({ message: "Invalid credentials format" });
