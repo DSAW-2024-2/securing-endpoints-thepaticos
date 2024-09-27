@@ -7,4 +7,4 @@
   status = 200
 
 [build.environment]
-  ACCES_TOKEN_SECRET = "nuestro_token_secreto"
+  ACCES_TOKEN_SECRET = "9fc9bcb75d1100f0db5861426c38dedf19e774fe8a4408725c700708277471ee8de0f980552940ea3e823d50c9af4d02bf1369e4d5326df068ccbb5ef2d252ba"
