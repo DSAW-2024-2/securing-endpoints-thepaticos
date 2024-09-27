@@ -13,7 +13,7 @@ const orderRoutes = require("../routes/orders");
 const loginRouter = require("../routes/login");
 const { cookieJwtAuth } = require("../middleware/cookieJwtAuth");
 
-app.use("/users", userRoutes);
+app.use("/users", cookieJwtAuth, userRoutes);
 app.use("/products", cookieJwtAuth, productRoutes);
 app.use("/orders", cookieJwtAuth, orderRoutes);
 app.use("/login", loginRouter);
