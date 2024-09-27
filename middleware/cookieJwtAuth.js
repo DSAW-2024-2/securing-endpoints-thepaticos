@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-exports.handler = async (event, context) => {
+exports.cookieJwtAuth = async (event, context) => {
   const { headers } = event;
 
   try {
