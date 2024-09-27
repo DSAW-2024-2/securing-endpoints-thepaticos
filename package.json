@@ -123,7 +123,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node functions/index.js",
     "start:dev": "nodemon functions/index.js",
-    "build": "netlify deploy --prod"
+    "build": "netlify deploy --prod",
+    "build:dev": "netlify deploy --alias=test-deploy"
   },
   "keywords": [],
   "author": "",
