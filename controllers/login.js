@@ -17,9 +17,12 @@ class authControllers {
         { expiresIn: "1h" }
       );
 
-      res.cookie("authToken", token, {
-        httpOnly: true
+      res.cookie('authToken', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 1000 // 1 hour
       });
+      
 
       res.status(200).json({ message: "Admin correctly logged in" });
     } catch (error) {
