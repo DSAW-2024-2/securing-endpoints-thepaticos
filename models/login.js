@@ -1,15 +1,15 @@
 class authModel {
   static isValidResBody(resBody) {
     return (
-      typeof resBody === 'object' &&
+      typeof resBody === "object" &&
       resBody !== null &&
-      'email' in resBody &&
-      'password' in resBody
+      "email" in resBody &&
+      "password" in resBody
     );
   }
 
   static getAuth(credentials) {
-    if (!this.isValidResBody(credentials)) { 
+    if (!this.isValidResBody(credentials)) {
       throw new Error("Invalid body format");
     }
     const { email, password } = credentials;

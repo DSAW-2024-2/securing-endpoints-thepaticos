@@ -1,6 +1,6 @@
 const authModel = require("../models/login");
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 
 class authControllers {
   static login(req, res) {
@@ -11,16 +11,18 @@ class authControllers {
         return res.status(403).json({ message: "Incorrect Admin credentials" });
       } else {
         const token = jwt.sign(
-          { email: authData.email }, 
-          process.env.ACCESS_TOKEN_SECRET, 
+          { email: authData.email },
+          process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: "1h" }
         );
-        res.cookie('authToken', token, {
+        res.cookie("authToken", token, {
           httpOnly: true,
           secure: true,
-          maxAge: 60 * 60 * 1000 // 1 hour
+          maxAge: 60 * 60 * 1000, // 1 hour
         });
-        res.status(200).json({ message: "Admin correctly logged in",accessToken:token });
+        res
+          .status(200)
+          .json({ message: "Admin correctly logged in", accessToken: token });
       }
     } catch (error) {
       if (error.message === "Invalid Body Format") {

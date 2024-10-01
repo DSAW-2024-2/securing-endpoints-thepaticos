@@ -1,12 +1,8 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
-require("dotenv").config();
 const app = express();
-
 const port = 3000;
 
 app.use(express.json());
-app.use(cookieParser());
 
 const userRoutes = require("../routes/users");
 const productRoutes = require("../routes/products");
@@ -26,3 +22,5 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+
+module.exports = app;

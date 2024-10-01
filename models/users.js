@@ -1,50 +1,52 @@
-const {addUser, deleteUser, getUsers, getUserById, getUserId, updateUser} = require('../data/users');
+const initialUsers = require("../data/users.json");
+const fs = require("fs");
+const path = require("path");
+const users = initialUsers;
+
 module.exports = class usersModel {
-  
   static getAll() {
-    return getUsers();
+    return users;
   }
 
   static createUser(newUser) {
-    const existUser = getUserById(newUser.id);
-    if (existUser!=false) {
-      throw new Error("User already exists");
+    const existUser = users.find((user) => {
+      return user.id === newUser.id;
+    });
+    if (existUser) {
+      throw new Error("existUser");
     }
-    addUser(newUser)
+    users.push(newUser);
     return newUser;
   }
 
   static getById(id) {
-    if (typeof(id)!=='number'){
-      throw new Error("Invalid user id");
-    }
-    const existUser = getUserById(id);
-    if (existUser==false) {
-      throw new Error("User does not exist");
+    const existUser = users.find((user) => {
+      return user.id === id;
+    });
+    if (!existUser) {
+      throw new Error("User doesn't exist");
     }
     return existUser;
   }
 
-  static modifyUser(id, updatedData) {
-    if (typeof(id)!=='number'){
-      throw new Error("Invalid user id")
+  static modifyUser(id, updateData) {
+    const userIndex = users.findIndex((user) => user.id === id);
+    if (userIndex !== -1) {
+      users[userIndex] = { ...users[userIndex], ...updateData };
+
+      return users[userIndex];
+    } else {
+      throw new Error("User doesn't exist");
     }
-    const existUser = getUserById(id);
-    if (existUser==false) {
-      throw new Error("User id does not exist");
-    }
-    updateUser(getUserId(existUser),updatedData);
-    return updatedData;
   }
 
   static deleteUser(id) {
-    if (typeof(id)!=='number'){
-      throw new Error("Invalid user id")
+    const userIndex = users.findIndex((user) => user.id === id);
+    if (userIndex !== -1) {
+      users.splice(userIndex, 1);
+      return;
+    } else {
+      throw new Error("User doesn't exist");
     }
-    const existUser = getUserById(id);
-    if (existUser==false) {
-      throw new Error("User does not exists");
-    }
-    deleteUser(getUserById(id));
   }
 };

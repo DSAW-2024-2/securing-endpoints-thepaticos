@@ -1,50 +1,52 @@
-const {addProduct, deleteProduct, getProducts, getProductById, getProductId, updateProduct} = require('../data/products');
-module.exports = class usersModel {
-  
+const initialProducts = require("../data/products.json");
+const fs = require("fs");
+const path = require("path");
+const products = initialProducts;
+module.exports = class productsModel {
   static getAll() {
-    return getProducts();
+    return products;
   }
 
   static createProduct(newProduct) {
-    const existProduct = getProductById(newProduct.id);
-    if (existProduct!=false) {
-      throw new Error("Product already exists");
+    const existProduct = products.find((product) => {
+      return product.id === newProduct.id;
+    });
+    if (existProduct) {
+      throw new Error("existProduct");
     }
-    addProduct(newProduct)
+    products.push(newProduct);
+
     return newProduct;
   }
 
   static getById(id) {
-    if (typeof(id)!=='number'){
-      throw new Error("Invalid user id");
-    }
-    const existProduct = getProductById(id);
-    if (existProduct==false) {
-      throw new Error("Product does not exist");
+    const existProduct = products.find((product) => {
+      return product.id === id;
+    });
+    if (!existProduct) {
+      throw new Error("Product doesn't exist");
     }
     return existProduct;
   }
 
-  static modifyProduct(id, updatedData) {
-    if (typeof(id)!=='number'){
-      throw new Error("Invalid product id")
+  static modifyProduct(id, updateData) {
+    const productIndex = products.findIndex((product) => product.id === id);
+    if (productIndex !== -1) {
+      products[productIndex] = { ...products[productIndex], ...updateData };
+
+      return products[productIndex];
+    } else {
+      throw new Error("Product doesn't exist");
     }
-    const existProduct = getProductById(id);
-    if (existProduct==false) {
-      throw new Error("Product id does not exist");
-    }
-    updateProduct(getProductId(existProduct),updatedData);
-    return updatedData;
   }
 
   static deleteProduct(id) {
-    if (typeof(id)!=='number'){
-      throw new Error("Invalid product id")
+    const productIndex = products.findIndex((product) => product.id === id);
+    if (productIndex !== -1) {
+      products.splice(productIndex, 1);
+      return;
+    } else {
+      throw new Error("Product doesn't exist");
     }
-    const existProduct = getProductById(id);
-    if (existProduct==false) {
-      throw new Error("Product does not exists");
-    }
-    deleteProduct(getProductById(id));
   }
 };

@@ -1,5 +1,4 @@
 const productsModel = require("../models/products");
-const {isValidResBody} = require('../data/products');
 
 class productsControllers {
   static getAll(req, res) {
@@ -7,24 +6,22 @@ class productsControllers {
       const products = productsModel.getAll();
       res.status(200).json(products);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.log(error);
     }
   }
   static createProduct(req, res) {
     try {
       const newProductData = req.body;
-      if (!isValidResBody(newProductData)){
-        throw new Error("Invalid Body Format")
+      if (!correctStructure(newProductData)) {
+        res.status(409).json({ message: "Incorrect Credentials" });
+        return;
       }
       const newProduct = productsModel.createProduct(newProductData);
       res.status(201).json(newProduct);
+      return;
     } catch (error) {
-      if ((error.message == "existProduct")) {
-        return res.status(409).json({ message: "Product id already exist" });
-      } else if ((error.message == "Invalid product id")) {
-        return res.status(400).json({ message: "Product id must be a number" });
-      } else if ((error.message == "Invalid Body Format")) {
-        return res.status(400).json({ message: "Not valid product info in body req" });
+      if ((error.message = "existProduct")) {
+        return res.status(409).json({ message: "Product_id already exist" });
       }
       return res.status(500).json({ message: error.message });
     }
@@ -32,38 +29,23 @@ class productsControllers {
   static getById(req, res) {
     try {
       const id = parseInt(req.params.id);
-      if (isNaN(id)){
-        throw new Error("Invalid product id");
-      }
       const product = productsModel.getById(id);
-      res.status(200).json(product);
+      return res.status(200).json(product);
     } catch (error) {
-      if ((error.message == "Product does not exists")) {
-        return res.status(404).json({ message: "Product doesn't exists" });
-      } else if ((error.message == "Invalid Product id")) {
-        return res.status(400).json({ message: "Product id must be a number" });
+      if ((error.message = "Product doesn't exist")) {
+        return res.status(404).json({ message: "Product doesn't exist" });
       }
       return res.status(500).json({ message: error.message });
     }
   }
   static modifyProduct(req, res) {
     try {
-      const id = parseInt(req.params.id,10);
-      if (isNaN(id)){
-        throw new Error("numId");
-      }
-      if (!isValidResBody(req.body)){
-        throw new Error("Invalid Body Format")
-      }
+      const id = parseInt(req.params.id);
       const modifyProduct = productsModel.modifyProduct(id, req.body);
-      res.status(200).json(modifyProduct);
+      return res.status(202).json(modifyProduct);
     } catch (error) {
-      if ((error.message == "Product doesn't exist")) {
+      if ((error.message = "Product doesn't exist")) {
         return res.status(404).json({ message: "Product doesn't exist" });
-      } else if ((error.message == "numId")) {
-        return res.status(400).json({ message: "Product id must be a number" });
-      } else if ((error.message == "Invalid Body Format")) {
-        return res.status(400).json({ message: "Not valid product info in body req" });
       }
       return res.status(500).json({ message: error.message });
     }
@@ -71,20 +53,36 @@ class productsControllers {
   static deleteProduct(req, res) {
     try {
       const id = parseInt(req.params.id);
-      if (isNaN(id)){
-        throw new Error("numId");
-      }
       productsModel.deleteProduct(id);
-      res.status(204).json();
+      return res
+        .status(204)
+        .json({ message: "Usuario eliminado correctamente" });
     } catch (error) {
-      if ((error.message == "Product doesn't exist")) {
+      if ((error.message = "Product doesn't exist")) {
         return res.status(404).json({ message: "Product doesn't exist" });
-      } else if ((error.message == "numId")) {
-        return res.status(400).json({ message: "Product id must be a number" });
       }
       return res.status(500).json({ message: error.message });
     }
   }
+}
+function correctStructure(objeto) {
+  if (
+    objeto.hasOwnProperty("id") &&
+    typeof objeto.id === "number" &&
+    objeto.hasOwnProperty("name") &&
+    typeof objeto.name === "string" &&
+    objeto.hasOwnProperty("price") &&
+    typeof objeto.price === "string" &&
+    objeto.hasOwnProperty("category") &&
+    typeof objeto.category === "string"
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function isNumber(param) {
+  return typeof param == "number";
 }
 
 module.exports = productsControllers;
