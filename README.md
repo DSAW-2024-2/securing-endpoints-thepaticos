@@ -1,10 +1,8 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/2snmTAKG)
 
-# Links Desplegados
+# Link Desplegado
 
-* [https://routing-the-paticos.netlify.app/users](https://routing-the-paticos.netlify.app/users)
-* [https://routing-the-paticos.netlify.app/orders](https://routing-the-paticos.netlify.app/orders)
-* [https://routing-the-paticos.netlify.app/products](https://routing-the-paticos.netlify.app/products)
+>[https://secure-endpoints.vercel.app](https://secure-endpoints.vercel.app)
 
 # Taller en Parejas: Creación de una API REST con Express.js
 
